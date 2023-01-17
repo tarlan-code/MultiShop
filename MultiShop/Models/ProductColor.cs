@@ -4,9 +4,9 @@ namespace MultiShop.Models
 {
     public class ProductColor:BaseEntity
     {
-        [MinLength(1), MaxLength(30)]
-        public string Name { get; set; }
         public int ProductId { get; set; }
-        public Product? Product { get; set; }
-    }
+        public Product Product { get; set; }
+		public int ColorId { get; set; }
+		public Color Color { get; set; }
+	}
 }
