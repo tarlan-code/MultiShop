@@ -12,7 +12,7 @@ using MultiShop.DAL;
 namespace MultiShop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230117050701_CreateTables")]
+    [Migration("20230118062743_CreateTables")]
     partial class CreateTables
     {
         /// <inheritdoc />
@@ -271,9 +271,6 @@ namespace MultiShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeiId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

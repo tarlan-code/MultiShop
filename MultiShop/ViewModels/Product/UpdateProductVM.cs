@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MultiShop.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MultiShop.ViewModels
 {
-    public class CreateProductVM
+    public class UpdateProductVM
     {
         [MinLength(1), MaxLength(50)]
         public string Name { get; set; }
@@ -16,7 +17,10 @@ namespace MultiShop.ViewModels
         public int ProductInfoId { get; set; }
         public List<int> SizeIds { get; set; }
         public List<int> ColorIds { get; set; }
-        public IFormFile CoverImage { get; set; }
-        public ICollection<IFormFile>? OtherImages { get; set; }
+				
+       
+        public IFormFile? CoverImage { get; set; }
+        public IEnumerable<IFormFile>? OtherImages { get; set; }
+        public IEnumerable<ProductImage>? ProductImages { get; set; }
     }
 }

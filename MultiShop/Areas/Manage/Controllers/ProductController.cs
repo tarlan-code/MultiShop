@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MultiShop.DAL;
 using MultiShop.Models;
-using MultiShop.ViewModels;
 using MultiShop.Utilies.Extensions;
+using MultiShop.ViewModels;
 
 namespace MultiShop.Areas.Manage.Controllers
 {
@@ -21,7 +22,7 @@ namespace MultiShop.Areas.Manage.Controllers
 
 		public IActionResult Index()
 		{
-			return View(_context.Products);
+			return View(_context.Products.Include(p=>p.Category).Include(p=>p.ProductImages).Include(p=>p.Discount));
 		}
 
 		public IActionResult Create()
@@ -145,12 +146,48 @@ namespace MultiShop.Areas.Manage.Controllers
 				_context.ProductSizes.Add(new ProductSize
 				{
 					Product = newProd,
-					SizeiId = item.Id
+					SizeId = item.Id
 				});
 			}
 			_context.SaveChanges();
 
 			return RedirectToAction(nameof(Index));
 		}
-	}
+
+		public IActionResult Update(int? Id)
+		{
+			if (Id is null || Id<=0) return BadRequest();
+			Product oldProd = _context.Products.Include(p => p.ProductColors).ThenInclude(pc => pc.Color).Include(p => p.ProductSizes).ThenInclude(ps => ps.Size).Include(p => p.ProductInfo).Include(p => p.Discount).Include(p => p.Category).FirstOrDefault(p => p.Id == Id);
+            ViewBag.Categories = new SelectList(_context.Categories, nameof(Category.Id), nameof(Category.Name));
+            ViewBag.Colors = new SelectList(_context.Colors, nameof(Category.Id), nameof(Category.Name));
+            ViewBag.Sizes = new SelectList(_context.Sizes, nameof(Size.Id), nameof(Size.Name));
+            ViewBag.Discounts = new SelectList(_context.Discounts, nameof(Discount.Id), nameof(Discount.Name));
+            ViewBag.Infos = new SelectList(_context.ProductInfos, nameof(ProductInfo.Id), nameof(ProductInfo.Key));
+			UpdateProductVM prod = new UpdateProductVM
+			{
+				Name = oldProd.Name,
+				Desc = oldProd.Desc,
+				CostPrice = oldProd.CostPrice,
+				SellPrice = oldProd.SellPrice,
+				CategoryId = oldProd.CategoryId,
+				DiscountId = oldProd?.DiscountId,
+				ProductInfoId = oldProd.ProductInfoId,
+				SizeIds = oldProd.ProductSizes.Select(p => p.SizeId).ToList(),
+				ColorIds = oldProd.ProductColors.Select(p => p.ColorId).ToList(),
+				ProductImages = oldProd.ProductImages
+			};
+
+			return View(prod);
+		}
+
+		public IActionResult Details(int? Id)
+		{
+			if(Id is null || Id <=0) return BadRequest();
+			Product product = _context.Products.Include(p => p.ProductColors).ThenInclude(pc => pc.Color).Include(p => p.ProductSizes).ThenInclude(ps => ps.Size).Include(p => p.Category).Include(p => p.ProductImages).Include(p => p.ProductInfo).Include(p=>p.Discount).Include(p=>p.Category).FirstOrDefault(p => p.Id == Id);
+			if (product is null) return NotFound();
+
+            return View(product);
+		}
+
+    }
 }

@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Update";
+}
+
+
+@model UpdateProductVM
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-11">
+			<h5>Create Product</h5>
+			<form class="user" method="post" enctype="multipart/form-data">
+				<div class="form-group row">
+					<div class="col-sm-4 mb-sm-2 mt-5">
+						<input asp-for="Name" class="form-control"
+							   placeholder="Name">
+						<span asp-validation-for="Name"></span>
+					</div>
+					<div class="col-sm-8 mb-sm-2">
+						<label asp-for="Desc">Description</label>
+						<textarea asp-for="Desc" class="form-control"></textarea>
+						<span asp-validation-for="Desc"></span>
+
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-4 mb-sm-2">
+						<input asp-for="SellPrice" type="text" class="form-control form-control-user"
+							   placeholder="Sell Price">
+						<span asp-validation-for="SellPrice"></span>
+
+					</div>
+					<div class="col-sm-4 mb-sm-2">
+						<input asp-for="CostPrice" type="text" class="form-control form-control-user"
+							   placeholder="Cost Price">
+						<span asp-validation-for="CostPrice"></span>
+
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-6 form-group">
+						<label asp-for="ColorIds" class="d-block"></label>
+						<select asp-for="ColorIds" class="js-example-basic-multiple form-control" asp-items="@ViewBag.Colors"></select>
+						<span asp-validation-for="ColorIds"></span>
+					</div>
+					<div class="col-sm-6 form-group">
+						<label asp-for="SizeIds" class="d-block"></label>
+						<select asp-for="SizeIds" class="js-example-basic-multiple form-control" asp-items="@ViewBag.Sizes"></select>
+						<span asp-validation-for="SizeIds"></span>
+					</div>
+
+				</div>
+				<div class="form-group row ">
+					<div class="col-sm-12 form-group">
+						<label asp-for="CoverImage" class="d-block">Cover Image</label>
+						<input asp-for="CoverImage" accept="image/*" style="cursor:pointer">
+						<span asp-validation-for="CoverImage"></span>
+					</div>
+					<div>
+						<img class="w-50" src="@Model.ProductImages.FirstOrDefault(pi=>pi.IsCover == true)" />
+					</div>
+				</div>
+				<div class="form-group row ">
+					<div class="col-sm-12 form-group">
+						<label asp-for="OtherImages" class="d-block">Others Image</label>
+						<input asp-for="OtherImages" accept="image/*" style="cursor:pointer">
+						<span asp-validation-for="OtherImages"></span>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<div class="col-sm-12 form-group">
+						<label asp-for="OtherImages" class="d-block">Others Image</label>
+						<input asp-for="OtherImages" accept="image/*" style="cursor:pointer">
+						<span asp-validation-for="OtherImages"></span>
+					</div>
+				</div>
+				<div class="form-group row ">
+					<div class="col-sm-4 form-group">
+						<label asp-for="DiscountId" class="d-block"></label>
+						<select asp-for="DiscountId" class="form-control" asp-items="@ViewBag.Discounts"></select>
+						<span asp-validation-for="DiscountId"></span>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label asp-for="ProductInfoId" class="d-block"></label>
+						<select class=" form-control" asp-for="ProductInfoId" asp-items="@ViewBag.Infos"></select>
+						<span asp-validation-for="ProductInfoId"></span>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label asp-for="CategoryId" class="d-block"></label>
+						<select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.Categories"></select>
+						<span asp-validation-for="CategoryId"></span>
+					</div>
+
+				</div>
+
+				<div class="row justify-content-center">
+
+					<div class="col-lg-5 col-sm-12 col-md-10 ">
+
+						<button type="submit" class="btn btn-primary btn-user btn-block">
+							Update
+						</button>
+						<hr>
+						<a asp-action="Index" asp-controller="Product" class="btn btn-danger btn-user btn-block">
+							Cancel
+						</a>
+					</div>
+				</div>
+
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	$('.js-example-basic-multiple').select2();
+</script>
+

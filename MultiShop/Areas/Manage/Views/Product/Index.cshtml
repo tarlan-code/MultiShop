@@ -23,16 +23,13 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Cover Image</th>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>Cost Price</th>
                             <th>Sell Price</th>
                             <th>Discount</th>
-                            <th>Sizes</th>
-                            <th>Colors</th>
                             <th>Categories</th>
-                            <th>Cover Image</th>
-                            <th>Date</th>
+                            <th></th>
                             <th></th>
                             <th></th>
 
@@ -40,6 +37,19 @@
                     </thead>
                     <tbody>
                         <tr>
+                            @foreach (var prod in Model)
+                            {
+                                <td>@prod.Id</td>
+                                <td> <img src="~/assets/img/@prod.ProductImages.FirstOrDefault(pi=>pi.ProductId == prod.Id).ImgUrl" /></td>
+                                <td>@prod.Name</td>
+                                <td>@prod.CostPrice</td>
+                                <td>@prod.SellPrice</td>
+                                <td>@prod.Discount.DiscountPercent</td>
+                                <td>@prod.Category.Name</td>
+                                <td><a class="btn btn-warning" asp-area="Manage" asp-controller="Product" asp-action="Update" asp-route-id="@prod.Id">Update</a></td>
+                                <td><a class="btn btn-danger" asp-area="Manage" asp-controller="Product" asp-action="Delete" asp-route-id="@prod.Id">Delete</a></td>
+                                <td><a class="btn btn-danger" asp-area="Manage" asp-controller="Product" asp-action="Details" asp-route-id="@prod.Id">Details</a></td>
+                            }
                         </tr>
 
                     </tbody>
